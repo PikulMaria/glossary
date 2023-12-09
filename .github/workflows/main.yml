@@ -1,0 +1,39 @@
+name: Node.js CI and Docker Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Сброс кэша Docker
+      run: |
+        docker logout
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Сборка и отправка Docker-образа
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: airampik/my_app:latest
+        build-args: SHA=${{ github.sha }}
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary Pikul</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #ff7b00;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            text-align: center;
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #ff7b00;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff7b00;
+        }
+
+        #definitionResult {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Glossary Pikul</h1>
+    </header>
+    <form id="defineForm">
+        <label for="term">Введите термин:</label>
+        <input type="text" id="term" name="term" required>
+        <button type="submit">Поиск</button>
+    </form>
+    <div id="definitionResult"></div>
+
+    <script>
+        document.getElementById('defineForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const term = document.getElementById('term').value.toUpperCase();
+            fetch(`/api/define/${term}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('definitionResult').innerHTML = `<p><strong>${data.term}:</strong> ${data.definition}</p>`;
+                })
+                .catch(error => {
+                    document.getElementById('definitionResult').innerHTML = `<p>Error: ${error.message}</p>`;
+                });
+        });
+    </script>
+</body>
+</html>
+
