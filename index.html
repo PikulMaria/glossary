@@ -91,7 +91,7 @@
         document.getElementById('defineForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const term = document.getElementById('term').value.toUpperCase();
-            fetch(`https://fchrxhch-3000.euw.devtunnels.ms/api/define/${term}`)
+            fetch(`https://fchrxhch-3000.euw.devtunnels.ms/api/define/${term}`, { mode: 'no-cors' })
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('definitionResult').innerHTML = `<p><strong>${data.term}:</strong> ${data.definition}</p>`;
