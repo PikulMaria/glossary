@@ -47,7 +47,7 @@ function findDefinition(term) {
     return foundTerm ? dictionary[foundTerm] : null;
 }
 
-loadDictionary('my-dictionary.json', (err) => {
+loadDictionary('/my-dictionary.json', (err) => {
     if (err) {
         console.log(err);
         return;
