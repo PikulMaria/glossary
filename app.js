@@ -4,6 +4,14 @@ const fs = require('fs');
 const url = require('url');
 const app = express();
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+
+
 let dictionary = null;
 
 const dictionaryHandler = (request, response) => {
